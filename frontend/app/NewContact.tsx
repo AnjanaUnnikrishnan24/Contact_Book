@@ -35,7 +35,7 @@ export default function NewContact() {
     };
 
     try {
-      const response = await fetch("http://localhost:3000/contacts", {
+      const response = await fetch("http://192.168.1.8:3000/contacts/add", {
         method: 'POST',
         headers: {
           "Content-Type": "application/json"

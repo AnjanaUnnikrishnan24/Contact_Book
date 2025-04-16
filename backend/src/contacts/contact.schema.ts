@@ -12,10 +12,10 @@ export class Contact {
     @Prop({ unique:true,required: true })
     mobilePhone: string;
 
-    @Prop({ unique:true,required: true })
+    @Prop({ unique:true })
     lanPhone: string;
 
-    @Prop({unique:true,required: true})
+    @Prop({unique:true})
     email: string;
 
     @Prop({required:true})

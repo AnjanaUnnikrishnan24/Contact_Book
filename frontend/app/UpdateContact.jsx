@@ -21,7 +21,7 @@ export default function UpdateContact() {
     useEffect(()=>{
         const fetchContact = async() =>{
             try{
-                const response = await fetch('http://localhost:3000/contacts');
+                const response = await fetch(`http://192.168.1.8:3000/contacts/view/${id}`);
                 const data = await response.json();
                 setFullName(data.fullname);
                 setMobilePhone(data.mobilePhone);
@@ -45,7 +45,7 @@ export default function UpdateContact() {
 
     const handleUpdate = async () => {
         try {
-            const res = await fetch(`http://192.168.153.215:3000/quizs/${id}`, {
+            const res = await fetch(`http://192.168.1.8:3000/contact/update/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -89,7 +89,6 @@ export default function UpdateContact() {
             </TouchableOpacity>
           </View>
     
-          {/* Form Inputs */}
           <View style={styles.inputContainer}>
             <Text style={styles.label}>Full Name</Text>
             <TextInput style={styles.input} placeholder="Full Name"  value={fullname} onChangeText={setFullName}  />

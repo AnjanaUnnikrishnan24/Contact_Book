@@ -21,7 +21,7 @@ export default function ContactsScreen() {
 
   const fetchContacts = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/contacts/all`);
+      const response = await fetch(`http://192.168.1.8:3000/contacts/all`);
       const data = await response.json();
 
       const sorted = data.sort((a: Contact, b: Contact) =>
@@ -69,11 +69,11 @@ export default function ContactsScreen() {
                 <TouchableOpacity
                   key={contact._id}
                   style={styles.contactItem}
-                  onPress={() => router.push(`http://localhost:3000/contacts/${contact._id}`)} 
+                  onPress={() => router.push(`http://192.168.1.8:3000/contacts/${contact._id}`)} 
                 >
                   {contact.image ? (
                     <Image
-                      source={{ uri: `http://localhost:3000/uploads/${contact.image}` }}
+                      source={{ uri: `http://192.168.1.8:3000/uploads/${contact.image}` }}
                       style={styles.avatar}
                     />
                   ) : (

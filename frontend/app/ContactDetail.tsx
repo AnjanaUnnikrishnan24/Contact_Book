@@ -5,20 +5,7 @@ import { useRouter, useLocalSearchParams } from 'expo-router';
 
 export default function ContactDetails() {
   const router = useRouter();
-  const {
-    _id,
-    fullname,
-    mobilePhone,
-    lanPhone,
-    email,
-    homeAddress,
-    dob,
-    group,
-    company,
-    workAddress,
-    jobTitle,
-    image,
-  } = useLocalSearchParams();
+  const { _id, fullname, mobilePhone, lanPhone, email, homeAddress, dob, group, company, workAddress, jobTitle, image } = useLocalSearchParams();
 
   const handleDelete = async () => {
     Alert.alert(
@@ -31,13 +18,13 @@ export default function ContactDetails() {
           style: 'destructive',
           onPress: async () => {
             try {
-              const response = await fetch(`http://localhost:3000/contacts/delete/${_id}`, {
+              const response = await fetch(`http://192.168.1.8:3000/contacts/delete/${_id}`, {
                 method: 'DELETE',
               });
 
               if (response.ok) {
                 Alert.alert('Deleted', 'Contact deleted successfully.');
-                router.replace('/'); // Adjust to your main screen
+                router.replace('/');  
               } else {
                 const result = await response.json();
                 Alert.alert('Error', result.message || 'Failed to delete contact.');
@@ -55,20 +42,7 @@ export default function ContactDetails() {
   const handleEdit = () => {
     router.push({
       pathname: '/NewContact',
-      params: {
-        _id,
-        fullname,
-        mobilePhone,
-        lanPhone,
-        email,
-        homeAddress,
-        dob,
-        group,
-        company,
-        workAddress,
-        jobTitle,
-        image,
-      },
+      params: { _id, fullname, mobilePhone, lanPhone, email, homeAddress, dob, group, company, workAddress, jobTitle, image, },
     });
   };
 
@@ -84,14 +58,11 @@ export default function ContactDetails() {
       </View>
 
       {/* Profile Image */}
-      {image ? (
-        <Image
-          source={{ uri: image.startsWith('http') ? image : `http://localhost:3000/uploads/${image}` }}
-          style={styles.image}
-        />
+      {/* {image ? (
+        <Image source={{ uri: image.startsWith('http') ? image : `http://localhost:3000/uploads/${image}` }} style={styles.image} />
       ) : (
         <Ionicons name="person-circle-outline" size={100} color="#ccc" style={styles.image} />
-      )}
+      )} */}
 
       {/* Info Display */}
       <View style={styles.infoContainer}>
@@ -140,75 +111,16 @@ function formatDate(dateStr: any) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-    paddingBottom: 60,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-  },
-  header: {
-    flexDirection: 'row',
-    width: '100%',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  headerText: {
-    fontSize: 20,
-    fontWeight: '600',
-  },
-  image: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    marginBottom: 20,
-  },
-  infoContainer: {
-    width: '100%',
-    marginTop: 10,
-  },
-  item: {
-    marginBottom: 16,
-  },
-  label: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: '#666',
-    marginBottom: 4,
-  },
-  value: {
-    fontSize: 16,
-    fontWeight: '400',
-    color: '#000',
-    backgroundColor: '#f9f9f9',
-    padding: 12,
-    borderRadius: 8,
-    borderColor: '#ddd',
-    borderWidth: 1,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    marginTop: 30,
-    gap: 20,
-  },
-  editButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#4CAF50',
-    padding: 12,
-    borderRadius: 10,
-    gap: 8,
-  },
-  deleteButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#F44336',
-    padding: 12,
-    borderRadius: 10,
-    gap: 8,
-  },
-  buttonText: {
-    color: '#fff',
-    fontWeight: '600',
-  },
+  container: { padding: 20, paddingBottom: 60, backgroundColor: '#fff', alignItems: 'center',},
+  header: { flexDirection: 'row', width: '100%', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20, },
+  headerText: { fontSize: 20, fontWeight: '600', },
+  image: { width: 100, height: 100, borderRadius: 50, marginBottom: 20, },
+  infoContainer: { width: '100%', marginTop: 10  },
+  item: { marginBottom: 16  },
+  label: { fontSize: 14, fontWeight: '500', color: '#666', marginBottom: 4  },
+  value: { fontSize: 16, fontWeight: '400', color: '#000', backgroundColor: '#f9f9f9', padding: 12, borderRadius: 8, borderColor: '#ddd', borderWidth: 1, },
+  buttonContainer: { flexDirection: 'row', marginTop: 30, gap: 20, },
+  editButton: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#4CAF50', padding: 12, borderRadius: 10, gap: 8,},
+  deleteButton: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#F44336', padding: 12, borderRadius: 10, gap: 8,},
+  buttonText: { color: '#fff', fontWeight: '600',},
 });
