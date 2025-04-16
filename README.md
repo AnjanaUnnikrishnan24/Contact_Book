@@ -19,9 +19,9 @@ A full-featured contact management mobile application built with React Native an
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: HTML5, CSS3, TypeScript, React Native (with Expo)  
-- **Backend**: NestJS (Node.js + Express)  
-- **Database**: MongoDB  
+**Frontend**: HTML5, CSS3, TypeScript, React Native (with Expo)  
+**Backend**: NestJS (Node.js + Express)  
+**Database**: MongoDB  
 
 ---
 
@@ -29,13 +29,15 @@ A full-featured contact management mobile application built with React Native an
 
 ### 🔙 Backend (NestJS)
 
-cd server
-npm install
-npm run start:dev
+**cd server**
+**npm install**
+**npm run start:dev**
 
-##📱 Frontend (React Native with Expo)
+### 🔙 Frontend (React Native)
 
-cd ui
-npx expo start
+**cd ui**
+**npx expo start**
+
+---
 
 
