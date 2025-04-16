@@ -29,18 +29,23 @@ A full-featured contact management mobile application built with React Native an
 
 ### 🔙 Backend (NestJS)
 
-```cd backend
+```
+cd backend
 
 npm install
 
 npm run start:dev
+```
+
+---
 
 ### 🔙 Frontend (React Native)
 
-```cd frontend
+```
+cd frontend
 
 npx expo start
-
+```
 ---
 
 
