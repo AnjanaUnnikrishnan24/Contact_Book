@@ -39,5 +39,6 @@ A full-featured contact management mobile application built with React Native an
 **npx expo start**
 
 ---
+<pre lang="markdown"> ## 📦 How to Run the App ### 🔙 Backend (NestJS) ```bash cd server npm install npm run start:dev ``` ### 🔙 Frontend (React Native) ```bash cd ui npx expo start ``` </pre>
 
 
