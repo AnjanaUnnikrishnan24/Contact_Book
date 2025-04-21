@@ -18,7 +18,7 @@ export default function ContactDetails() {
           style: 'destructive',
           onPress: async () => {
             try {
-              const response = await fetch(`http://192.168.1.8:3000/contacts/delete/${_id}`, {
+              const response = await fetch(`http://192.168.90.41:3000/contacts/delete/${_id}`, {
                 method: 'DELETE',
               });
 

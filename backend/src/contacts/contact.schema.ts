@@ -37,7 +37,7 @@ export class Contact {
     workAddress:string;
 
     @Prop()
-    image:string;
+    image?:string;
 
 }
 
