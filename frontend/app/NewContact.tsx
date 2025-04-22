@@ -17,7 +17,6 @@ export default function NewContact() {
   const [company, setCompany] = useState("");
   const [workAddress, setWorkAddress] = useState("");
   const [jobTitle, setJobTitle] = useState("");
-  const [image, setImage] = useState("");
 
   const handleSubmit = async () => {
     const contactDetails = {
@@ -31,7 +30,6 @@ export default function NewContact() {
       company,
       workAddress,
       jobTitle,
-      image,
     };
 
     try {
@@ -57,7 +55,6 @@ export default function NewContact() {
         setCompany("");
         setWorkAddress("");
         setJobTitle("");
-        setImage("");
         router.push("/");
       } else {
         Alert.alert("Error", "Failed to Submit Contact");
@@ -84,10 +81,10 @@ export default function NewContact() {
       {/* Form Inputs */}
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Full Name</Text>
-        <TextInput style={styles.input} placeholder="Full Name"  value={fullname} onChangeText={setFullName}  />
+        <TextInput style={styles.input} placeholder="Full Name" value={fullname} onChangeText={setFullName} />
 
         <Text style={styles.label}>Phone</Text>
-        <TextInput style={styles.input} placeholder="Phone Number" keyboardType="phone-pad" value={mobilePhone} onChangeText={setMobilePhone}/>
+        <TextInput style={styles.input} placeholder="Phone Number" keyboardType="phone-pad" value={mobilePhone} onChangeText={setMobilePhone} />
 
         <Text style={styles.label}>Landline</Text>
         <TextInput style={styles.input} placeholder="Landline Number" keyboardType="phone-pad" value={lanPhone} onChangeText={setLanPhone} />
@@ -96,14 +93,14 @@ export default function NewContact() {
         <TextInput style={styles.input} placeholder="Email Address" keyboardType="email-address" value={email} onChangeText={setEmail} />
 
         <Text style={styles.label}>Home Address</Text>
-        <TextInput style={styles.input} placeholder="Home Address" value={homeAddress} onChangeText={setHomeAddress}  />
+        <TextInput style={styles.input} placeholder="Home Address" value={homeAddress} onChangeText={setHomeAddress} />
 
         <Text style={styles.label}>Date of Birth</Text>
         <TextInput style={styles.input} placeholder="YYYY-MM-DD" value={dob} onChangeText={setDob} />
 
         <Text style={styles.label}>Group</Text>
         <View style={styles.pickerContainer}>
-          <Picker selectedValue={group} onValueChange={(value) => setGroup(value)} >
+          <Picker selectedValue={group} onValueChange={(value) => setGroup(value)}>
             <Picker.Item label="Select Group" value="" />
             <Picker.Item label="Friends" value="Friends" />
             <Picker.Item label="Family" value="Family" />
@@ -116,13 +113,10 @@ export default function NewContact() {
         <TextInput style={styles.input} placeholder="Company Name" value={company} onChangeText={setCompany} />
 
         <Text style={styles.label}>Work Address</Text>
-        <TextInput  style={styles.input}  placeholder="Company Address"  value={workAddress}  onChangeText={setWorkAddress}  />
+        <TextInput style={styles.input} placeholder="Company Address" value={workAddress} onChangeText={setWorkAddress} />
 
         <Text style={styles.label}>Job Title</Text>
         <TextInput style={styles.input} placeholder="Job Title" value={jobTitle} onChangeText={setJobTitle} />
-
-        <Text style={styles.label}>Image URL</Text>
-        <TextInput  style={styles.input}  placeholder="Image URL"  value={image}  onChangeText={setImage} />
       </View>
     </ScrollView>
   );

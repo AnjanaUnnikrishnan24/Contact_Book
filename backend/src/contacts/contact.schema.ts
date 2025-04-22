@@ -10,15 +10,15 @@ export class Contact {
     fullname: string;
 
     @Prop({ unique:true,required: true })
-    mobilePhone: string;
+    mobilePhone: number;
 
     @Prop({ unique:true })
-    lanPhone: string;
+    lanPhone: number;
 
     @Prop({unique:true})
     email: string;
 
-    @Prop({required:true})
+    @Prop()
     homeAddress : string;
 
     @Prop({ type: Date })
@@ -36,8 +36,8 @@ export class Contact {
     @Prop()
     workAddress:string;
 
-    @Prop()
-    image?:string;
+    // @Prop()
+    // image?:string;
 
 }
 
