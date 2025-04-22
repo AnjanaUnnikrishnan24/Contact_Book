@@ -1,6 +1,6 @@
 # 📱 Contact Book App
 
-A full-featured contact management mobile application built with React Native and NestJS. Easily manage personal and professional contacts with support for multiple platforms and cloud database integration.
+A full-featured contact management mobile application built with React Native and NestJS. Easily manage personal and professional contacts.
 
 ---
 
