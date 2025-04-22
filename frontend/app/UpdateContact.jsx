@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import {
-  Button, ScrollView, TextInput, View, Text,
-  StyleSheet, TouchableOpacity
-} from "react-native";
+import { ScrollView, TextInput, View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Picker } from '@react-native-picker/picker';
 import { Ionicons } from '@expo/vector-icons';
 
