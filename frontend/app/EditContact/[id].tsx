@@ -4,7 +4,7 @@ import { ScrollView, TextInput, View, Text, StyleSheet, TouchableOpacity } from 
 import { Picker } from '@react-native-picker/picker';
 import { Ionicons } from '@expo/vector-icons';
 
-export default function UpdateContact() {
+export default function EditContact() {
   const router = useRouter();
   const { id } = useLocalSearchParams();
 
@@ -57,7 +57,7 @@ export default function UpdateContact() {
     };
 
     try {
-      const res = await fetch(`http://192.168.90.41:3000/contact/update/${id}`, {
+      const res = await fetch(`http://192.168.90.41:3000/contacts/update/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

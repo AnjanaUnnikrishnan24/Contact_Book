@@ -32,7 +32,7 @@ export class ContactsService {
         return updated;
     }
 
-    async remove(id: string): Promise<void> {
+    async remove(id: string): Promise<any> {
         const result = await this.contactModel.findByIdAndDelete(id).exec();
         if (!result) throw new NotFoundException('Contact not found');
     }

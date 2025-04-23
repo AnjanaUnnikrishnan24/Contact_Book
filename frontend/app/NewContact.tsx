@@ -67,8 +67,7 @@ export default function NewContact() {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
+       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()}>
           <Ionicons name="close" size={28} color="black" />
         </TouchableOpacity>
@@ -78,8 +77,7 @@ export default function NewContact() {
         </TouchableOpacity>
       </View>
 
-      {/* Form Inputs */}
-      <View style={styles.inputContainer}>
+       <View style={styles.inputContainer}>
         <Text style={styles.label}>Full Name</Text>
         <TextInput style={styles.input} placeholder="Full Name" value={fullname} onChangeText={setFullName} />
 

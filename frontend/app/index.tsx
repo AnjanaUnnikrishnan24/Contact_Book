@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet, ActivityIndicator, TouchableOpacity, Alert } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, FlatList, StyleSheet, ActivityIndicator, TouchableOpacity, Alert,} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
+import { useFocusEffect } from '@react-navigation/native';
 
 type Contact = {
   _id: string;
@@ -16,6 +17,7 @@ const ContactsScreen = () => {
 
   const fetchContacts = async () => {
     try {
+      setLoading(true);
       const response = await fetch(`http://192.168.90.41:3000/contacts/all`);
       const data = await response.json();
       setContacts(data || []);
@@ -39,8 +41,12 @@ const ContactsScreen = () => {
           onPress: async () => {
             try {
               const res = await fetch(`http://192.168.90.41:3000/contacts/delete/${id}`, {
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
               });
+
               const result = await res.json();
               console.log('Deleted result:', result);
               fetchContacts();
@@ -53,9 +59,11 @@ const ContactsScreen = () => {
     );
   };
 
-  useEffect(() => {
-    fetchContacts();
-  }, [router]);
+   useFocusEffect(
+    React.useCallback(() => {
+      fetchContacts();
+    }, [])
+  );
 
   if (loading) {
     return (
@@ -86,10 +94,16 @@ const ContactsScreen = () => {
             <Text style={styles.name}>{item.fullname}</Text>
             <Text>{item.mobilePhone}</Text>
             <View style={styles.actionRow}>
-              <TouchableOpacity onPress={() => router.push(`http://192.168.90.41:3000/contacts/update/${item._id}`)} style={styles.actionBtn}>
+              <TouchableOpacity onPress={() => router.push(`/ViewContact/${item._id}`)} style={styles.actionBtn}>
+                <Ionicons name="eye-outline" size={20} color="#3F51B5" />
+                <Text style={styles.actionText}>View</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => router.push(`/EditContact/${item._id}`)} style={styles.actionBtn}>
                 <Ionicons name="create-outline" size={20} color="#4CAF50" />
                 <Text style={styles.actionText}>Edit</Text>
               </TouchableOpacity>
+
               <TouchableOpacity onPress={() => handleDelete(item._id)} style={styles.actionBtn}>
                 <Ionicons name="trash-outline" size={20} color="#F44336" />
                 <Text style={styles.actionText}>Delete</Text>
