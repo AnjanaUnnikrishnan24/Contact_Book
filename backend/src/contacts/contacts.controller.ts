@@ -53,14 +53,6 @@ export class ContactsController {
     return this.contactsService.remove(id);
   }
 
-  // @Get()
-  // async getContact(@Query('group') group?: string) {
-  // if (group) {
-  //   return this.contactsService.findByGroup(group);
-  // }
-  // return this.contactsService.findAll();
-  // }
-
   @Put('favourite/:id')
   async markAsFavourite(@Param('id') id:string){
     return this.contactsService.markAsFavourite(id);

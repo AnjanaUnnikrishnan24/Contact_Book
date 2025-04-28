@@ -6,7 +6,7 @@ import { Profile, ProfileDocument } from './profile.schema';
 @Injectable()
 export class ProfileService {
   constructor(
-    @InjectModel(Profile.name) private readonly profileModel: Model<ProfileDocument>,
+    @InjectModel(Profile.name) private readonly profileModel: Model<Profile>,
   ) {}
 
   async create(profile: Profile): Promise<Profile> {

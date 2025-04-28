@@ -60,15 +60,24 @@ export class ContactsService {
         return result;
     }
 
-    async searchContacts(query: string): Promise<Contact[]> {
-        const regex = new RegExp(query, 'i'); 
+    async searchContacts(query: string) {
+        const searchRegex = new RegExp(query, 'i');
+      
+        const isNumber = !isNaN(Number(query));  // check if query is a number
+      
+        const conditions: any = [
+          { name: { $regex: searchRegex } },
+          { email: { $regex: searchRegex } },
+          { homeAddress: { $regex: searchRegex } },
+        ];
+      
+        if (isNumber) {
+          conditions.push({ mobilePhone: Number(query) }); // only if it's a number
+        }
+      
         return this.contactModel.find({
-          $or: [
-            { fullname: regex },
-            { mobilePhone: regex },
-            { email: regex },
-          ],
-        }).exec();
+          $or: conditions,
+        });
     }
       
 }
