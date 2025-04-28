@@ -36,8 +36,23 @@ export class Contact {
     @Prop()
     workAddress:string;
 
-    // @Prop()
-    // image?:string;
+    @Prop()
+    image?:string;
+
+    @Prop()
+    linkedIn: string;
+
+    @Prop()
+    instagram: string;
+
+    @Prop()
+    facebook: string;
+
+    @Prop()
+    twitter: string;
+
+    @Prop({ default: false })
+    isFavorite: boolean;
 
 }
 
