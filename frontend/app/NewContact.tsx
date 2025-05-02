@@ -19,7 +19,7 @@ export default function NewContact() {
   const [jobTitle, setJobTitle] = useState("");
 
   const handleSubmit = async () => {
-    const contactDetails = {
+    const contact = {
       fullname,
       mobilePhone,
       lanPhone,
@@ -33,15 +33,15 @@ export default function NewContact() {
     };
 
     try {
-      const response = await fetch("http://192.168.90.41:3000/contacts/add", {
+      const response = await fetch("http://192.168.8.41:3000/contacts/add", {
         method: 'POST',
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(contactDetails)
+        body: JSON.stringify(contact),
       });
+
       const data = await response.json();
-      console.log(data);
 
       if (response.ok) {
         Alert.alert("Success", data.message || "Contact added successfully!");
@@ -67,7 +67,7 @@ export default function NewContact() {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-       <View style={styles.header}>
+      <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()}>
           <Ionicons name="close" size={28} color="black" />
         </TouchableOpacity>
@@ -77,43 +77,42 @@ export default function NewContact() {
         </TouchableOpacity>
       </View>
 
-       <View style={styles.inputContainer}>
-        <Text style={styles.label}>Full Name</Text>
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}><Ionicons name="person-outline" size={16} /> Full Name</Text>
         <TextInput style={styles.input} placeholder="Full Name" value={fullname} onChangeText={setFullName} />
 
-        <Text style={styles.label}>Phone</Text>
+        <Text style={styles.label}><Ionicons name="call-outline" size={16} /> Phone</Text>
         <TextInput style={styles.input} placeholder="Phone Number" keyboardType="phone-pad" value={mobilePhone} onChangeText={setMobilePhone} />
 
-        <Text style={styles.label}>Landline</Text>
+        <Text style={styles.label}><Ionicons name="call-sharp" size={16} /> Landline</Text>
         <TextInput style={styles.input} placeholder="Landline Number" keyboardType="phone-pad" value={lanPhone} onChangeText={setLanPhone} />
 
-        <Text style={styles.label}>Email</Text>
+        <Text style={styles.label}><Ionicons name="mail-outline" size={16} /> Email</Text>
         <TextInput style={styles.input} placeholder="Email Address" keyboardType="email-address" value={email} onChangeText={setEmail} />
 
-        <Text style={styles.label}>Home Address</Text>
+        <Text style={styles.label}><Ionicons name="home-outline" size={16} /> Home Address</Text>
         <TextInput style={styles.input} placeholder="Home Address" value={homeAddress} onChangeText={setHomeAddress} />
 
-        <Text style={styles.label}>Date of Birth</Text>
+        <Text style={styles.label}><Ionicons name="calendar-outline" size={16} /> Date of Birth</Text>
         <TextInput style={styles.input} placeholder="YYYY-MM-DD" value={dob} onChangeText={setDob} />
 
-        <Text style={styles.label}>Group</Text>
+        <Text style={styles.label}><Ionicons name="people-outline" size={16} /> Group</Text>
         <View style={styles.pickerContainer}>
-          <Picker selectedValue={group} onValueChange={(value) => setGroup(value)}>
-            <Picker.Item label="Select Group" value="" />
-            <Picker.Item label="Friends" value="Friends" />
+          <Picker selectedValue={group} onValueChange={(val) => setGroup(val)}>
             <Picker.Item label="Family" value="Family" />
+            <Picker.Item label="Friends" value="Friends" />
             <Picker.Item label="Work" value="Work" />
             <Picker.Item label="Others" value="Others" />
           </Picker>
         </View>
 
-        <Text style={styles.label}>Company</Text>
+        <Text style={styles.label}><Ionicons name="business-outline" size={16} /> Company</Text>
         <TextInput style={styles.input} placeholder="Company Name" value={company} onChangeText={setCompany} />
 
-        <Text style={styles.label}>Work Address</Text>
+        <Text style={styles.label}><Ionicons name="location-outline" size={16} /> Work Address</Text>
         <TextInput style={styles.input} placeholder="Company Address" value={workAddress} onChangeText={setWorkAddress} />
 
-        <Text style={styles.label}>Job Title</Text>
+        <Text style={styles.label}><Ionicons name="briefcase-outline" size={16} /> Job Title</Text>
         <TextInput style={styles.input} placeholder="Job Title" value={jobTitle} onChangeText={setJobTitle} />
       </View>
     </ScrollView>
@@ -150,7 +149,7 @@ const styles = StyleSheet.create({
     borderColor: '#ddd',
     borderRadius: 8,
     padding: 12,
-    fontSize: 16,
+    fontSize: 12,
     backgroundColor: '#f9f9f9',
   },
   pickerContainer: {

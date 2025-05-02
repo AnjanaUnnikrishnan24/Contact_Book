@@ -22,7 +22,7 @@ export default function EditContact() {
   useEffect(() => {
     const fetchContact = async () => {
       try {
-        const response = await fetch(`http://192.168.90.41:3000/contacts/view/${id}`);
+        const response = await fetch(`http://192.168.8.41:3000/contacts/view/${id}`);
         const data = await response.json();
         setFullName(data.fullname);
         setMobilePhone(data.mobilePhone);
@@ -57,7 +57,7 @@ export default function EditContact() {
     };
 
     try {
-      const res = await fetch(`http://192.168.90.41:3000/contacts/update/${id}`, {
+      const res = await fetch(`http://192.168.8.41:3000/contacts/update/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

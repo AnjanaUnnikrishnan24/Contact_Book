@@ -33,8 +33,11 @@ export class ContactsService {
     }
 
     async remove(id: string): Promise<any> {
-        const result = await this.contactModel.findByIdAndDelete(id).exec();
-        if (!result) throw new NotFoundException('Contact not found');
+        const result = await this.contactModel.findByIdAndDelete(id);
+        if (!result) {
+            throw new NotFoundException('Contact not found');
+        }
+        return { message: "Contact deleted successfully"}
     }
 
     async findByGroup(group: string): Promise<Contact[]> {
@@ -51,19 +54,18 @@ export class ContactsService {
         return updated;
     }
 
-    async getGroupedContacts(): Promise<any>{
-        const groups =  ['family','friends','work','others'];
-        const result = {};
-        for ( const group of groups){
-            result[group] = await this.contactModel.find({group}).exec();
-        }
-        return result;
+    async getFavourites(): Promise<Contact[]>{
+        return this.contactModel.find({ isFavorite: true }).exec();
+    }
+
+    async getContactsByGroup(groupName: string): Promise<Contact[]>{
+        return this.contactModel.find({group: groupName }).exec();
     }
 
     async searchContacts(query: string) {
         const searchRegex = new RegExp(query, 'i');
       
-        const isNumber = !isNaN(Number(query));  // check if query is a number
+        const isNumber = !isNaN(Number(query));  
       
         const conditions: any = [
           { name: { $regex: searchRegex } },
@@ -72,7 +74,7 @@ export class ContactsService {
         ];
       
         if (isNumber) {
-          conditions.push({ mobilePhone: Number(query) }); // only if it's a number
+          conditions.push({ mobilePhone: Number(query) }); 
         }
       
         return this.contactModel.find({

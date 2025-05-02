@@ -18,7 +18,7 @@ const ContactsScreen = () => {
   const fetchContacts = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`http://192.168.90.41:3000/contacts/all`);
+      const response = await fetch(`http://192.168.8.41:3000/contacts/all`);
       const data = await response.json();
       setContacts(data || []);
     } catch (error) {
@@ -40,7 +40,7 @@ const ContactsScreen = () => {
           style: 'destructive',
           onPress: async () => {
             try {
-              const res = await fetch(`http://192.168.90.41:3000/contacts/delete/${id}`, {
+              const res = await fetch(`http://192.168.8.41:3000/contacts/delete/${id}`, {
                 method: 'DELETE',
                 headers: {
                   'Content-Type': 'application/json',
@@ -59,7 +59,7 @@ const ContactsScreen = () => {
     );
   };
 
-   useFocusEffect(
+  useFocusEffect(
     React.useCallback(() => {
       fetchContacts();
     }, [])
