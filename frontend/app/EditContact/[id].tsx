@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { ScrollView, TextInput, View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { ScrollView, TextInput, View, Text, StyleSheet, TouchableOpacity, Switch } from "react-native";
 import { Picker } from '@react-native-picker/picker';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -10,30 +10,32 @@ export default function EditContact() {
 
   const [fullname, setFullName] = useState("");
   const [mobilePhone, setMobilePhone] = useState("");
-  const [lanPhone, setLanPhone] = useState("");
+  const [mobilePhone2, setMobilePhone2] = useState("");
   const [email, setEmail] = useState("");
   const [homeAddress, setHomeAddress] = useState("");
   const [dob, setDob] = useState("");
-  const [group, setGroup] = useState("");
+  const [group, setGroup] = useState("Others");
   const [company, setCompany] = useState("");
   const [workAddress, setWorkAddress] = useState("");
   const [jobTitle, setJobTitle] = useState("");
+  const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
     const fetchContact = async () => {
       try {
         const response = await fetch(`http://192.168.8.41:3000/contacts/view/${id}`);
         const data = await response.json();
-        setFullName(data.fullname);
-        setMobilePhone(data.mobilePhone);
-        setLanPhone(data.lanPhone);
-        setEmail(data.email);
-        setHomeAddress(data.homeAddress);
-        setDob(data.dob);
-        setGroup(data.group);
-        setCompany(data.company);
-        setWorkAddress(data.workAddress);
-        setJobTitle(data.jobTitle);
+        setFullName(data.fullname || "");
+        setMobilePhone(data.mobilePhone?.toString() || "");
+        setMobilePhone2(data.mobilePhone2?.toString() || "");
+        setEmail(data.email || "");
+        setHomeAddress(data.homeAddress || "");
+        setDob(data.dob ? new Date(data.dob).toISOString().split("T")[0] : "");
+        setGroup(data.group || "Others");
+        setCompany(data.company || "");
+        setWorkAddress(data.workAddress || "");
+        setJobTitle(data.jobTitle || "");
+        setIsFavorite(data.isFavorite || false);
       } catch (error) {
         console.error("Failed to load contact", error);
       }
@@ -45,15 +47,16 @@ export default function EditContact() {
   const handleUpdate = async () => {
     const updatedData = {
       fullname,
-      mobilePhone,
-      lanPhone,
+      mobilePhone: Number(mobilePhone),
+      mobilePhone2: mobilePhone2 ? Number(mobilePhone2) : undefined,
       email,
       homeAddress,
       dob,
       group,
       company,
       workAddress,
-      jobTitle
+      jobTitle,
+      isFavorite
     };
 
     try {
@@ -65,11 +68,13 @@ export default function EditContact() {
         body: JSON.stringify(updatedData),
       });
 
-      const result = await res.json();
+      if (!res.ok) throw new Error("Failed to update");
+
       alert("Contact updated successfully!");
       router.back();
     } catch (error) {
       console.error('Failed to update contact', error);
+      alert("Update failed. Please check your inputs.");
     }
   };
 
@@ -86,25 +91,46 @@ export default function EditContact() {
       </View>
 
       <View style={styles.inputContainer}>
-        <Text style={styles.label}>Full Name</Text>
+        <View style={styles.labelWithIcon}>
+          <Ionicons name="person-outline" size={18} color="#444" />
+          <Text style={styles.label}>Full Name</Text>
+        </View>
         <TextInput style={styles.input} value={fullname} onChangeText={setFullName} />
 
-        <Text style={styles.label}>Phone</Text>
-        <TextInput style={styles.input} keyboardType="phone-pad" value={mobilePhone} onChangeText={setMobilePhone} />
+        <View style={styles.labelWithIcon}>
+          <Ionicons name="call-outline" size={18} color="#444" />
+          <Text style={styles.label}>Contact Number</Text>
+        </View>
+        <TextInput style={styles.input} keyboardType="numeric" value={mobilePhone} onChangeText={setMobilePhone} />
 
-        <Text style={styles.label}>Landline</Text>
-        <TextInput style={styles.input} keyboardType="phone-pad" value={lanPhone} onChangeText={setLanPhone} />
+        <View style={styles.labelWithIcon}>
+          <Ionicons name="call-outline" size={18} color="#444" />
+          <Text style={styles.label}>Additional Contact Number</Text>
+        </View>
+        <TextInput style={styles.input} keyboardType="numeric" value={mobilePhone2} onChangeText={setMobilePhone2} />
 
-        <Text style={styles.label}>Email</Text>
+        <View style={styles.labelWithIcon}>
+          <Ionicons name="mail-outline" size={18} color="#444" />
+          <Text style={styles.label}>Email</Text>
+        </View>
         <TextInput style={styles.input} keyboardType="email-address" value={email} onChangeText={setEmail} />
 
-        <Text style={styles.label}>Home Address</Text>
+        <View style={styles.labelWithIcon}>
+          <Ionicons name="home-outline" size={18} color="#444" />
+          <Text style={styles.label}>Home Address</Text>
+        </View>
         <TextInput style={styles.input} value={homeAddress} onChangeText={setHomeAddress} />
 
-        <Text style={styles.label}>Date of Birth</Text>
+        <View style={styles.labelWithIcon}>
+          <Ionicons name="calendar-outline" size={18} color="#444" />
+          <Text style={styles.label}>Date of Birth</Text>
+        </View>
         <TextInput style={styles.input} placeholder="YYYY-MM-DD" value={dob} onChangeText={setDob} />
 
-        <Text style={styles.label}>Group</Text>
+        <View style={styles.labelWithIcon}>
+          <Ionicons name="people-outline" size={18} color="#444" />
+          <Text style={styles.label}>Group</Text>
+        </View>
         <View style={styles.pickerContainer}>
           <Picker selectedValue={group} onValueChange={setGroup}>
             <Picker.Item label="Select Group" value="" />
@@ -115,14 +141,31 @@ export default function EditContact() {
           </Picker>
         </View>
 
-        <Text style={styles.label}>Company</Text>
+        <View style={styles.labelWithIcon}>
+          <Ionicons name="business-outline" size={18} color="#444" />
+          <Text style={styles.label}>Company</Text>
+        </View>
         <TextInput style={styles.input} value={company} onChangeText={setCompany} />
 
-        <Text style={styles.label}>Work Address</Text>
+        <View style={styles.labelWithIcon}>
+          <Ionicons name="location-outline" size={18} color="#444" />
+          <Text style={styles.label}>Work Address</Text>
+        </View>
         <TextInput style={styles.input} value={workAddress} onChangeText={setWorkAddress} />
 
-        <Text style={styles.label}>Job Title</Text>
+        <View style={styles.labelWithIcon}>
+          <Ionicons name="briefcase-outline" size={18} color="#444" />
+          <Text style={styles.label}>Job Title</Text>
+        </View>
         <TextInput style={styles.input} value={jobTitle} onChangeText={setJobTitle} />
+
+        <View style={styles.favoriteContainer}>
+          <View style={styles.labelWithIcon}>
+            <Ionicons name="star-outline" size={18} color="#444" />
+            <Text style={styles.label}>Favorite</Text>
+          </View>
+          <Switch value={isFavorite} onValueChange={setIsFavorite} />
+        </View>
       </View>
     </ScrollView>
   );
@@ -133,7 +176,28 @@ const styles = StyleSheet.create({
   header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 },
   headerText: { fontSize: 20, fontWeight: '600' },
   inputContainer: { marginTop: 10 },
-  label: { fontSize: 14, fontWeight: '500', marginBottom: 6, marginTop: 16 },
-  input: { borderWidth: 1, borderColor: '#ddd', borderRadius: 8, padding: 12, fontSize: 16, backgroundColor: '#f9f9f9' },
-  pickerContainer: { borderWidth: 1, borderColor: '#ddd', borderRadius: 8, backgroundColor: '#f9f9f9', overflow: 'hidden' },
+  label: { fontSize: 14, fontWeight: '500', color: '#444' },
+  labelWithIcon: { flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 16 },
+  input: {
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 8,
+    padding: 12,
+    fontSize: 16,
+    backgroundColor: '#f9f9f9',
+  },
+  pickerContainer: {
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 8,
+    backgroundColor: '#f9f9f9',
+    overflow: 'hidden',
+    marginTop: 6,
+  },
+  favoriteContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: 20,
+  },
 });

@@ -1,171 +1,48 @@
-import React, { useState } from 'react';
-import { View, Text, FlatList, StyleSheet, ActivityIndicator, TouchableOpacity, Alert,} from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import React, { useEffect } from 'react';
+import { View, Text, Image, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
-import { useFocusEffect } from '@react-navigation/native';
 
-type Contact = {
-  _id: string;
-  fullname: string;
-  mobilePhone: string;
-};
-
-const ContactsScreen = () => {
-  const [contacts, setContacts] = useState<Contact[] | null>(null);
-  const [loading, setLoading] = useState(true);
+const LandingScreen = () => {
   const router = useRouter();
 
-  const fetchContacts = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch(`http://192.168.8.41:3000/contacts/all`);
-      const data = await response.json();
-      setContacts(data || []);
-    } catch (error) {
-      console.error('Error fetching contacts:', error);
-      setContacts([]);
-    } finally {
-      setLoading(false);
-    }
-  };
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      router.push("/ContactsScreen");
+    }, 3000); 
 
-  const handleDelete = async (id: string) => {
-    Alert.alert(
-      'Confirm Delete',
-      'Are you sure you want to delete this contact?',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Delete',
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              const res = await fetch(`http://192.168.8.41:3000/contacts/delete/${id}`, {
-                method: 'DELETE',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-              });
-
-              const result = await res.json();
-              console.log('Deleted result:', result);
-              fetchContacts();
-            } catch (error) {
-              console.error('Error deleting contact:', error);
-            }
-          },
-        },
-      ]
-    );
-  };
-
-  useFocusEffect(
-    React.useCallback(() => {
-      fetchContacts();
-    }, [])
-  );
-
-  if (loading) {
-    return (
-      <View style={styles.center}>
-        <ActivityIndicator size="large" color="#0000ff" />
-      </View>
-    );
-  }
-
-  if (!contacts || contacts.length === 0) {
-    return (
-      <View style={styles.center}>
-        <Text>No contacts found.</Text>
-        <TouchableOpacity style={styles.addButton} onPress={() => router.push('/NewContact')}>
-          <Ionicons name="add" size={28} color="#fff" />
-        </TouchableOpacity>
-      </View>
-    );
-  }
+    return () => clearTimeout(timer);  
+  }, []);
 
   return (
-    <View style={{ flex: 1 }}>
-      <FlatList
-        data={contacts}
-        keyExtractor={(item) => item._id}
-        renderItem={({ item }) => (
-          <View style={styles.card}>
-            <Text style={styles.name}>{item.fullname}</Text>
-            <Text>{item.mobilePhone}</Text>
-            <View style={styles.actionRow}>
-              <TouchableOpacity onPress={() => router.push(`/ViewContact/${item._id}`)} style={styles.actionBtn}>
-                <Ionicons name="eye-outline" size={20} color="#3F51B5" />
-                <Text style={styles.actionText}>View</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => router.push(`/EditContact/${item._id}`)} style={styles.actionBtn}>
-                <Ionicons name="create-outline" size={20} color="#4CAF50" />
-                <Text style={styles.actionText}>Edit</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => handleDelete(item._id)} style={styles.actionBtn}>
-                <Ionicons name="trash-outline" size={20} color="#F44336" />
-                <Text style={styles.actionText}>Delete</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        )}
+    <View style={styles.container}>
+      <Image
+        source={require('../assets/logo.png')}
+        style={styles.logo}
+        resizeMode="contain"
       />
-
-      <TouchableOpacity style={styles.fab} onPress={() => router.push('/NewContact')}>
-        <Ionicons name="add" size={30} color="#fff" />
-      </TouchableOpacity>
+      <Text style={styles.title}>Contact Book</Text>
     </View>
   );
 };
 
+export default LandingScreen;
+
 const styles = StyleSheet.create({
-  center: {
+  container: {
     flex: 1,
+    backgroundColor: '#f9fbfd',
+    alignItems: 'center',
     justifyContent: 'center',
-    alignItems: 'center',
+    padding: 24,
   },
-  card: {
-    backgroundColor: '#f9f9f9',
-    padding: 15,
-    margin: 10,
-    borderRadius: 10,
-    elevation: 2,
+  logo: {
+    width: 180,
+    height: 180,
+    marginBottom: 20,
   },
-  name: {
-    fontWeight: 'bold',
-    fontSize: 18,
-    marginBottom: 5,
-  },
-  actionRow: {
-    flexDirection: 'row',
-    marginTop: 10,
-    gap: 15,
-  },
-  actionBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  actionText: {
-    marginLeft: 5,
-    fontSize: 14,
-  },
-  fab: {
-    position: 'absolute',
-    right: 20,
-    bottom: 30,
-    backgroundColor: '#2196F3',
-    borderRadius: 30,
-    padding: 16,
-    elevation: 5,
-  },
-  addButton: {
-    marginTop: 20,
-    backgroundColor: '#2196F3',
-    borderRadius: 30,
-    padding: 16,
+  title: {
+    fontSize: 28,
+    fontWeight: '600',
+    color: '#1e293b',
   },
 });
-
-export default ContactsScreen;

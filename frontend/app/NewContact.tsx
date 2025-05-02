@@ -1,5 +1,14 @@
 import React, { useState } from 'react';
-import { Alert, View, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import {
+  Alert,
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+  Switch,
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Picker } from '@react-native-picker/picker';
 import { useRouter } from 'expo-router';
@@ -9,27 +18,28 @@ export default function NewContact() {
 
   const [fullname, setFullName] = useState("");
   const [mobilePhone, setMobilePhone] = useState("");
-  const [lanPhone, setLanPhone] = useState("");
+  const [mobilePhone2, setMobilePhone2] = useState("");
   const [email, setEmail] = useState("");
   const [homeAddress, setHomeAddress] = useState("");
-  const [dob, setDob] = useState("");
-  const [group, setGroup] = useState("");
+  const [group, setGroup] = useState("Others");
   const [company, setCompany] = useState("");
   const [workAddress, setWorkAddress] = useState("");
   const [jobTitle, setJobTitle] = useState("");
+  const [isFavorite, setIsFavorite] = useState(false);
 
   const handleSubmit = async () => {
     const contact = {
       fullname,
-      mobilePhone,
-      lanPhone,
+      mobilePhone: mobilePhone ? Number(mobilePhone) : null,
+      mobilePhone2: mobilePhone2 ? Number(mobilePhone2) : null,
       email,
       homeAddress,
-      dob,
+      dob: null, 
       group,
       company,
       workAddress,
       jobTitle,
+      isFavorite,
     };
 
     try {
@@ -47,17 +57,17 @@ export default function NewContact() {
         Alert.alert("Success", data.message || "Contact added successfully!");
         setFullName("");
         setMobilePhone("");
-        setLanPhone("");
+        setMobilePhone2("");
         setEmail("");
         setHomeAddress("");
-        setDob("");
-        setGroup("");
+        setGroup("Others");
         setCompany("");
         setWorkAddress("");
         setJobTitle("");
+        setIsFavorite(false);
         router.push("/");
       } else {
-        Alert.alert("Error", "Failed to Submit Contact");
+        Alert.alert("Error", data.message || "Failed to Submit Contact");
       }
     } catch (error) {
       Alert.alert("Error", "Something went wrong");
@@ -81,20 +91,17 @@ export default function NewContact() {
         <Text style={styles.label}><Ionicons name="person-outline" size={16} /> Full Name</Text>
         <TextInput style={styles.input} placeholder="Full Name" value={fullname} onChangeText={setFullName} />
 
-        <Text style={styles.label}><Ionicons name="call-outline" size={16} /> Phone</Text>
-        <TextInput style={styles.input} placeholder="Phone Number" keyboardType="phone-pad" value={mobilePhone} onChangeText={setMobilePhone} />
+        <Text style={styles.label}><Ionicons name="call-outline" size={16} /> Contact Number</Text>
+        <TextInput style={styles.input} placeholder="Contact Number" keyboardType="number-pad" value={mobilePhone} onChangeText={setMobilePhone} />
 
-        <Text style={styles.label}><Ionicons name="call-sharp" size={16} /> Landline</Text>
-        <TextInput style={styles.input} placeholder="Landline Number" keyboardType="phone-pad" value={lanPhone} onChangeText={setLanPhone} />
+        <Text style={styles.label}><Ionicons name="call-sharp" size={16} /> Additional Contact Number</Text>
+        <TextInput style={styles.input} placeholder="Additional Contact Number" keyboardType="number-pad" value={mobilePhone2} onChangeText={setMobilePhone2} />
 
         <Text style={styles.label}><Ionicons name="mail-outline" size={16} /> Email</Text>
         <TextInput style={styles.input} placeholder="Email Address" keyboardType="email-address" value={email} onChangeText={setEmail} />
 
         <Text style={styles.label}><Ionicons name="home-outline" size={16} /> Home Address</Text>
         <TextInput style={styles.input} placeholder="Home Address" value={homeAddress} onChangeText={setHomeAddress} />
-
-        <Text style={styles.label}><Ionicons name="calendar-outline" size={16} /> Date of Birth</Text>
-        <TextInput style={styles.input} placeholder="YYYY-MM-DD" value={dob} onChangeText={setDob} />
 
         <Text style={styles.label}><Ionicons name="people-outline" size={16} /> Group</Text>
         <View style={styles.pickerContainer}>
@@ -114,6 +121,11 @@ export default function NewContact() {
 
         <Text style={styles.label}><Ionicons name="briefcase-outline" size={16} /> Job Title</Text>
         <TextInput style={styles.input} placeholder="Job Title" value={jobTitle} onChangeText={setJobTitle} />
+
+        <View style={styles.favoriteContainer}>
+          <Text style={styles.label}><Ionicons name="star-outline" size={16} /> Favorite</Text>
+          <Switch value={isFavorite} onValueChange={setIsFavorite} />
+        </View>
       </View>
     </ScrollView>
   );
@@ -158,5 +170,11 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: '#f9f9f9',
     overflow: 'hidden',
+  },
+  favoriteContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 16,
   },
 });

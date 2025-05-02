@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator, Image, Alert,} from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 
 type Contact = {
   _id: string;
   fullname: string;
-  mobilePhone: string;
-  lanPhone?: string;
+  mobilePhone: number;
+  mobilePhone2?: number;
   email?: string;
   homeAddress?: string;
   dob?: string;
-  group?: string;
+  group: 'Family' | 'Friends' | 'Work' | 'Others';
   company?: string;
   workAddress?: string;
   jobTitle?: string;
-  image?: string;
+  isFavorite: boolean;
 };
 
 export default function ViewContact() {
@@ -87,7 +87,7 @@ export default function ViewContact() {
           <Ionicons name="arrow-back" size={28} color="black" />
         </TouchableOpacity>
 
-        <Text style={styles.headerText}>Contact Details</Text>
+        
 
         <View style={styles.iconActions}>
           <TouchableOpacity onPress={() => router.push(`/EditContact/${id}`)}>
@@ -99,14 +99,10 @@ export default function ViewContact() {
         </View>
       </View>
 
-      {contact.image && (
-        <Image source={{ uri: contact.image }} style={styles.image} />
-      )}
-
       <View style={styles.infoContainer}>
-        <DetailItem icon="person-outline" label="Full Name" value={contact.fullname} />
-        <DetailItem icon="call-outline" label="Mobile Phone" value={contact.mobilePhone} />
-        <DetailItem icon="call-sharp" label="Landline" value={contact.lanPhone} />
+        <Text style={styles.nameHeading}>{contact.fullname}</Text>
+        <DetailItem icon="call-outline" label="Mobile Phone" value={String(contact.mobilePhone)} />
+        <DetailItem icon="call-sharp" label="Additional Contact Number" value={contact.mobilePhone2 ? String(contact.mobilePhone2) : undefined} />
         <DetailItem icon="mail-outline" label="Email" value={contact.email} />
         <DetailItem icon="home-outline" label="Home Address" value={contact.homeAddress} />
         <DetailItem icon="calendar-outline" label="Date of Birth" value={formatDate(contact.dob)} />
@@ -114,6 +110,7 @@ export default function ViewContact() {
         <DetailItem icon="business-outline" label="Company" value={contact.company} />
         <DetailItem icon="location-outline" label="Work Address" value={contact.workAddress} />
         <DetailItem icon="briefcase-outline" label="Job Title" value={contact.jobTitle} />
+        <DetailItem icon="star-outline" label="Favorite" value={contact.isFavorite ? 'Yes' : 'No'} />
       </View>
     </ScrollView>
   );
@@ -132,7 +129,7 @@ function DetailItem({
   return (
     <View style={styles.item}>
       <View style={styles.labelRow}>
-        <Ionicons name={icon} size={16} color="#666" style={styles.icon} />
+        <Ionicons name={icon} size={18} color="#666" style={styles.icon} />
         <Text style={styles.label}>{label}</Text>
       </View>
       <Text style={styles.value}>{value}</Text>
@@ -148,7 +145,7 @@ function formatDate(dateStr: any) {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
+    padding: 24,
     paddingBottom: 40,
     backgroundColor: '#fff',
     alignItems: 'center',
@@ -165,9 +162,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 20,
   },
-  headerText: {
-    fontSize: 20,
-    fontWeight: '600',
+  nameHeading: {
+    fontSize: 28,
+    fontWeight: '700',
+    color: '#333',
+    textAlign: 'center',
+    flex: 1,
+    letterSpacing: 1,
   },
   iconActions: {
     flexDirection: 'row',
@@ -175,42 +176,44 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   actionIcon: {
-    marginLeft: 12,
-  },
-  image: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-    marginBottom: 20,
+    padding: 8,
+    backgroundColor: '#f0f0f0',
+    borderRadius: 8,
+    elevation: 2,
   },
   infoContainer: {
     width: '100%',
-    marginTop: 10,
+    marginTop: 20,
   },
   item: {
-    marginBottom: 16,
+    marginBottom: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f0f0f0',
+    paddingBottom: 16,
   },
   labelRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 4,
+    marginBottom: 6,
   },
   icon: {
-    marginRight: 6,
+    marginRight: 8,
   },
   label: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: '#666',
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#777',
   },
   value: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '400',
-    color: '#000',
+    color: '#333',
     backgroundColor: '#f9f9f9',
-    padding: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 18,
     borderRadius: 8,
-    borderColor: '#ddd',
     borderWidth: 1,
+    borderColor: '#ddd',
+    marginTop: 4,
   },
 });

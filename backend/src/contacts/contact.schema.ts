@@ -22,6 +22,7 @@ export class Contact {
 
   @Prop({
     unique: true,
+    sparse:true,
     validate: {
       validator: (v: number) => /^\d{10}$/.test(String(v)),
       message: "Enter a valid 10-digit mobile number",
