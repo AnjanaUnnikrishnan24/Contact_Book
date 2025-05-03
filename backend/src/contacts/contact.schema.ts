@@ -1,12 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import * as mongoose from 'mongoose';
 
 export type ContactDocument = Contact & Document;
 
 @Schema({ timestamps: true })
 export class Contact {
-
   @Prop({ required: true, trim: true })
   fullname: string;
 
@@ -15,30 +13,18 @@ export class Contact {
     required: true,
     validate: {
       validator: (v: number) => /^\d{10}$/.test(String(v)),
-      message: "Enter a valid 10-digit mobile number",
+      message: 'Enter a valid 10-digit mobile number',
     },
   })
   mobilePhone: number;
 
   @Prop({
-    unique: true,
-    sparse:true,
-    validate: {
-      validator: (v: number) => /^\d{10}$/.test(String(v)),
-      message: "Enter a valid 10-digit mobile number",
-    },
-  })
-  mobilePhone2: number;
-
-  @Prop({
-    unique: true,
     lowercase: true,
     trim: true,
-    sparse: true,
     validate: {
-      validator: (email: string) =>
+      validator: (email: string | undefined | null) =>
         !email || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email),
-        message:"Enter a valid email",
+      message: 'Enter a valid email',
     },
   })
   email?: string;
@@ -63,9 +49,6 @@ export class Contact {
 
   @Prop({ trim: true })
   workAddress?: string;
-
-  // @Prop()
-  // image?: string;
 
   @Prop({ default: false })
   isFavorite: boolean;

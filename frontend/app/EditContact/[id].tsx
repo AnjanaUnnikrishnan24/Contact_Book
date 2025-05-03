@@ -10,7 +10,6 @@ export default function EditContact() {
 
   const [fullname, setFullName] = useState("");
   const [mobilePhone, setMobilePhone] = useState("");
-  const [mobilePhone2, setMobilePhone2] = useState("");
   const [email, setEmail] = useState("");
   const [homeAddress, setHomeAddress] = useState("");
   const [dob, setDob] = useState("");
@@ -27,7 +26,6 @@ export default function EditContact() {
         const data = await response.json();
         setFullName(data.fullname || "");
         setMobilePhone(data.mobilePhone?.toString() || "");
-        setMobilePhone2(data.mobilePhone2?.toString() || "");
         setEmail(data.email || "");
         setHomeAddress(data.homeAddress || "");
         setDob(data.dob ? new Date(data.dob).toISOString().split("T")[0] : "");
@@ -48,7 +46,6 @@ export default function EditContact() {
     const updatedData = {
       fullname,
       mobilePhone: Number(mobilePhone),
-      mobilePhone2: mobilePhone2 ? Number(mobilePhone2) : undefined,
       email,
       homeAddress,
       dob,
@@ -102,12 +99,6 @@ export default function EditContact() {
           <Text style={styles.label}>Contact Number</Text>
         </View>
         <TextInput style={styles.input} keyboardType="numeric" value={mobilePhone} onChangeText={setMobilePhone} />
-
-        <View style={styles.labelWithIcon}>
-          <Ionicons name="call-outline" size={18} color="#444" />
-          <Text style={styles.label}>Additional Contact Number</Text>
-        </View>
-        <TextInput style={styles.input} keyboardType="numeric" value={mobilePhone2} onChangeText={setMobilePhone2} />
 
         <View style={styles.labelWithIcon}>
           <Ionicons name="mail-outline" size={18} color="#444" />

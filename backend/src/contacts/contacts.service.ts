@@ -68,9 +68,7 @@ export class ContactsService {
         const isNumber = !isNaN(Number(query));  
       
         const conditions: any = [
-          { name: { $regex: searchRegex } },
-          { email: { $regex: searchRegex } },
-          { homeAddress: { $regex: searchRegex } },
+          { fullname: { $regex: searchRegex } },
         ];
       
         if (isNumber) {

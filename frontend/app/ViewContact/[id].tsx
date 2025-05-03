@@ -7,7 +7,6 @@ type Contact = {
   _id: string;
   fullname: string;
   mobilePhone: number;
-  mobilePhone2?: number;
   email?: string;
   homeAddress?: string;
   dob?: string;
@@ -102,7 +101,6 @@ export default function ViewContact() {
       <View style={styles.infoContainer}>
         <Text style={styles.nameHeading}>{contact.fullname}</Text>
         <DetailItem icon="call-outline" label="Mobile Phone" value={String(contact.mobilePhone)} />
-        <DetailItem icon="call-sharp" label="Additional Contact Number" value={contact.mobilePhone2 ? String(contact.mobilePhone2) : undefined} />
         <DetailItem icon="mail-outline" label="Email" value={contact.email} />
         <DetailItem icon="home-outline" label="Home Address" value={contact.homeAddress} />
         <DetailItem icon="calendar-outline" label="Date of Birth" value={formatDate(contact.dob)} />
@@ -147,6 +145,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 24,
     paddingBottom: 40,
+    height:'100%',
     backgroundColor: '#fff',
     alignItems: 'center',
   },

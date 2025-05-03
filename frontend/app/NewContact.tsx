@@ -1,14 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Alert,
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
-  Switch,
-} from 'react-native';
+import { Alert, View, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView, Switch,} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Picker } from '@react-native-picker/picker';
 import { useRouter } from 'expo-router';
@@ -18,7 +9,6 @@ export default function NewContact() {
 
   const [fullname, setFullName] = useState("");
   const [mobilePhone, setMobilePhone] = useState("");
-  const [mobilePhone2, setMobilePhone2] = useState("");
   const [email, setEmail] = useState("");
   const [homeAddress, setHomeAddress] = useState("");
   const [group, setGroup] = useState("Others");
@@ -31,7 +21,6 @@ export default function NewContact() {
     const contact = {
       fullname,
       mobilePhone: mobilePhone ? Number(mobilePhone) : null,
-      mobilePhone2: mobilePhone2 ? Number(mobilePhone2) : null,
       email,
       homeAddress,
       dob: null, 
@@ -57,7 +46,6 @@ export default function NewContact() {
         Alert.alert("Success", data.message || "Contact added successfully!");
         setFullName("");
         setMobilePhone("");
-        setMobilePhone2("");
         setEmail("");
         setHomeAddress("");
         setGroup("Others");
@@ -65,7 +53,7 @@ export default function NewContact() {
         setWorkAddress("");
         setJobTitle("");
         setIsFavorite(false);
-        router.push("/");
+        router.push("/ContactsScreen");
       } else {
         Alert.alert("Error", data.message || "Failed to Submit Contact");
       }
@@ -93,9 +81,6 @@ export default function NewContact() {
 
         <Text style={styles.label}><Ionicons name="call-outline" size={16} /> Contact Number</Text>
         <TextInput style={styles.input} placeholder="Contact Number" keyboardType="number-pad" value={mobilePhone} onChangeText={setMobilePhone} />
-
-        <Text style={styles.label}><Ionicons name="call-sharp" size={16} /> Additional Contact Number</Text>
-        <TextInput style={styles.input} placeholder="Additional Contact Number" keyboardType="number-pad" value={mobilePhone2} onChangeText={setMobilePhone2} />
 
         <Text style={styles.label}><Ionicons name="mail-outline" size={16} /> Email</Text>
         <TextInput style={styles.input} placeholder="Email Address" keyboardType="email-address" value={email} onChangeText={setEmail} />
