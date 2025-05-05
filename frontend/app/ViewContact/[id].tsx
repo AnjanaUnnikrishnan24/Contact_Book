@@ -85,9 +85,6 @@ export default function ViewContact() {
         <TouchableOpacity onPress={() => router.back()}>
           <Ionicons name="arrow-back" size={28} color="black" />
         </TouchableOpacity>
-
-        
-
         <View style={styles.iconActions}>
           <TouchableOpacity onPress={() => router.push(`/EditContact/${id}`)}>
             <Ionicons name="create-outline" size={24} color="#4CAF50" style={styles.actionIcon} />
@@ -98,8 +95,9 @@ export default function ViewContact() {
         </View>
       </View>
 
+      <Text style={styles.nameHeading}>{contact.fullname}</Text>
+
       <View style={styles.infoContainer}>
-        <Text style={styles.nameHeading}>{contact.fullname}</Text>
         <DetailItem icon="call-outline" label="Mobile Phone" value={String(contact.mobilePhone)} />
         <DetailItem icon="mail-outline" label="Email" value={contact.email} />
         <DetailItem icon="home-outline" label="Home Address" value={contact.homeAddress} />
@@ -143,11 +141,11 @@ function formatDate(dateStr: any) {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 24,
-    paddingBottom: 40,
+    paddingHorizontal: 24,
     height:'100%',
+    paddingTop: 16,
+    paddingBottom: 40,
     backgroundColor: '#fff',
-    alignItems: 'center',
   },
   center: {
     flex: 1,
@@ -156,39 +154,35 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    width: '100%',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 12,
   },
   nameHeading: {
-    fontSize: 28,
+    fontSize: 26,
     fontWeight: '700',
-    color: '#333',
+    color: '#222',
     textAlign: 'center',
-    flex: 1,
-    letterSpacing: 1,
+    marginTop: 12,
+    marginBottom: 24,
   },
   iconActions: {
     flexDirection: 'row',
-    gap: 12,
-    alignItems: 'center',
+    gap: 10,
   },
   actionIcon: {
-    padding: 8,
-    backgroundColor: '#f0f0f0',
+    padding: 6,
+    backgroundColor: '#eee',
     borderRadius: 8,
-    elevation: 2,
   },
   infoContainer: {
-    width: '100%',
-    marginTop: 20,
+    marginTop: 10,
   },
   item: {
-    marginBottom: 20,
+    marginBottom: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
-    paddingBottom: 16,
+    borderBottomColor: '#eee',
+    paddingBottom: 12,
   },
   labelRow: {
     flexDirection: 'row',
@@ -196,20 +190,19 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   icon: {
-    marginRight: 8,
+    marginRight: 6,
   },
   label: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '600',
-    color: '#777',
+    color: '#666',
   },
   value: {
-    fontSize: 18,
-    fontWeight: '400',
+    fontSize: 17,
     color: '#333',
-    backgroundColor: '#f9f9f9',
-    paddingVertical: 12,
-    paddingHorizontal: 18,
+    backgroundColor: '#f5f5f5',
+    paddingVertical: 10,
+    paddingHorizontal: 16,
     borderRadius: 8,
     borderWidth: 1,
     borderColor: '#ddd',
